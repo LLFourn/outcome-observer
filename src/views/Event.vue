@@ -1,67 +1,62 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <breadcrumbs :items="breadcrumbs">
-          <v-btn icon @click="copyToClipboard(eventUrl())">
-            <v-icon medium>mdi-content-copy</v-icon>
-          </v-btn>
-        </breadcrumbs>
-        <p>
-          {{ $describe.event_short(event_id) }}
-        </p>
-      </v-col>
-    </v-row>
+<v-container>
+  <v-row>
+    <v-col>
+      <breadcrumbs :items="breadcrumbs">
+        <v-btn icon @click="copyToClipboard(eventUrl())">
+          <v-icon medium>mdi-content-copy</v-icon>
+        </v-btn>
+      </breadcrumbs>
+      <p>
+        {{ $describe.event_short(event_id) }}
+      </p>
+    </v-col>
+  </v-row>
 
-    <v-row v-if="announcement != null">
-      <v-col>
-        <v-card>
-          <v-card-title> possible outcomes </v-card-title>
-          <v-card-text>
-            <ul>
-              <li
-                v-for="outcome in announcement.descriptor.outcomes"
-                :key="outcome"
-                class="display-1"
+  <v-row v-if="announcement != null">
+    <v-col>
+      <v-card>
+        <v-card-title> possible outcomes </v-card-title>
+        <v-card-text>
+          <ul>
+            <li
+              v-for="outcome in announcement.descriptor.outcomes"
+              :key="outcome"
+              class="display-1"
               >
-                {{ outcome }}
-              </li>
-            </ul>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col cols="12">
-        <v-card>
-          <v-card-title> Outcome </v-card-title>
-          <v-card-text class="display-2" v-if="attestation">
-            {{ attestation.outcome }}
-          </v-card-text>
-          <v-card-text v-else-if="announcement">
-            {{ countdown }} at {{ announcement.expected_outcome_time }} UTC
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row v-if="announcement != null">
-      <v-col>
-        <v-card @click="show_announcement = !show_announcement" hover>
-          <v-card-title> Announcement </v-card-title>
-          <v-expand-transition>
-            <div v-show="show_announcement">
-              <v-divider></v-divider>
-              <v-card-text>
-                <pre class="language-markup">{{
-                  JSON.stringify(announcement, null, "\t")
-                }}</pre>
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-col>
-    </v-row>
+              {{ outcome }}
+            </li>
+          </ul>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col>
+      <v-card>
+        <v-card-title> Outcome </v-card-title>
+        <v-card-text class="display-2" v-if="attestation">
+          {{ attestation.outcome }}
+        </v-card-text>
+        <v-card-text v-else-if="announcement">
+          {{ countdown }} at {{ announcement.expected_outcome_time }} UTC
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-expansion-panels popout>
+      <v-expansion-panel
+        v-for="[title,body] in [['Announcement',announcement ], [ 'Attestation', attestation ]]"
+        :key="`${title}-expansion-drawer`"
+        :disabled="body == null"
+      >
+        <v-expansion-panel-header> <v-row justify="center"><v-col cols=6 class="text-center">{{ title }}</v-col></v-row></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <pre> {{ JSON.stringify(body, null, "\t") }} </pre>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </v-row>
+  </v-card>
   </v-container>
 </template>
 
@@ -78,7 +73,6 @@ export default {
   },
   data: () => ({
     event_info: null,
-    show_announcement: false,
     expected_outcome_time: null,
     current_time: Date.now(),
     timer_interval: null,
