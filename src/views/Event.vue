@@ -149,7 +149,7 @@ export default {
       let prefix =
         this.expected_outcome_time >= this.current_time
           ? "should be known "
-          : "should have been known";
+          : "should have been known ";
       return (
         prefix +
         formatDistance(this.expected_outcome_time, this.current_time, {

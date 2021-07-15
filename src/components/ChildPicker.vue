@@ -2,14 +2,14 @@
   <div v-if="children != null">
     <div v-if="isList">
       <v-row>
-        <v-col v-for="item in children.list" :key="item.name">
+        <v-col v-for="item in children.list" :key="item.name" cols=12 md=6>
           <v-card
             hover
             :to="hrefFor(item.name)"
             @mouseover="chosen_child = item.name"
             @mouseleave="chosen_child = null"
           >
-            <v-card-title> {{ item.name }} </v-card-title>
+            <v-card-title> <v-icon>{{ iconFor(item.name)  }}</v-icon>{{ item.name }} </v-card-title>
             <v-card-text>
               {{ $describe.path_short(pathFor(item.name)) }}
             </v-card-text>
@@ -59,6 +59,18 @@ export default {
     hrefFor(item) {
       return "/" + this.oracle + this.pathFor(item);
     },
+    iconFor(item) {
+      let path = this.pathFor(item);
+      if (path == "/soccer") {
+        return "mdi-soccer";
+      }
+      else if (path == "/time") {
+        return "mdi-timer-sand";
+      }
+      else if (path == "/random") {
+        return "mdi-dice-multiple-outline";
+      }
+    }
   },
   computed: {
     isList() {

@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <breadcrumbs :items="breadcrumbs" :next_selection="next_selection" />
-        <p v-html="$describe.path_long('/' + $route.params.path)"></p>
+        <p v-html="$describe.path_long($route.params.path)"></p>
         <v-row>
           <v-col v-show="in_progress"
             ><v-progress-circular indeterminate
