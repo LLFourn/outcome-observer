@@ -43,7 +43,7 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-expansion-panels popout>
+    <v-expansion-panels popout multiple>
       <v-expansion-panel
         v-for="[title,body] in [['Announcement',announcement ], [ 'Attestation', attestation ]]"
         :key="`${title}-expansion-drawer`"
