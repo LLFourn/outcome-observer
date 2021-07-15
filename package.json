@@ -13,7 +13,6 @@
     "date-fns": "^2.22.1",
     "olivia_describe": "https://gitpkg.now.sh/LLFourn/olivia/olivia_describe/pkg?master",
     "vue": "^2.6.11",
-    "vue-code-highlight": "^0.7.8",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0"
   },
