@@ -8,7 +8,7 @@
           <v-col v-show="in_progress"
             ><v-progress-circular indeterminate
           /></v-col>
-          <v-col v-for="event_kind in events" cols="6">
+          <v-col v-for="event_kind in events" cols="6" :key="`${event_kind}-card`">
             <event-card
               :event="eventId(event_kind)"
               :oracle="$route.params.oracle"

@@ -81,23 +81,25 @@ export default {
     last_fetched: null,
   }),
   beforeDestroy() {
-    this.timer_interval && clearInterval(this.timer_interval);
+    this.stopTimer();
   },
   methods: {
-    updateTime() {
+    stopTimer() {
+     this.timer_interval && clearInterval(this.timer_interval);
+    },
+    async updateTime() {
       this.current_time = Date.now();
       if (
         this.expected_outcome_time &&
         this.current_time >= this.expected_outcome_time &&
         this.attestation == null &&
-        this.current_time - this.last_fetched > 60000
+        (this.last_fetched == null || this.current_time - this.last_fetched > 60000)
       ) {
-        console.log("fetched");
-        this.fetchEvent();
+        this.last_fetched = Date.now();
+        await this.fetchEvent();
       }
     },
     async fetchEvent() {
-      this.last_fetched = Date.now();
       let res = await axios(this.eventUrl());
       let event_info = res.data;
       this.event_info = event_info;
@@ -108,6 +110,9 @@ export default {
         );
       }
       this.attestation = event_info.attestation;
+      if (this.attestation != null) {
+          this.stopTimer();
+      }
     },
     eventUrl() {
       let event_kind = this.$route.params.event_kind;
