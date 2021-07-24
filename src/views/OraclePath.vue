@@ -1,20 +1,28 @@
 <template>
   <v-container>
-    <v-row>
+  <v-row>
+    <v-col class="text-center">
+      <router-breadcrumbs></router-breadcrumbs>
+    </v-col>
+  </v-row>
+    <v-row class="text-center">
       <v-col>
-        <breadcrumbs :items="breadcrumbs" :next_selection="next_selection" />
-        <p v-html="$describe.path_long($route.params.path)"></p>
-        <v-row>
-          <v-col v-show="in_progress"
-            ><v-progress-circular indeterminate
-          /></v-col>
-          <v-col v-for="event_kind in events" cols="6" :key="`${event_kind}-card`">
+        <p v-html="$describe.path_html($route.params.path)"></p>
+        </v-col>
+        </v-row>
+    <v-row v-show="in_progress" justify="center">
+      <v-col cols=1>
+            <v-progress-circular indeterminate/>
+      </v-col>
+    </v-row>
+    <v-row>
+          <v-col v-for="event_kind in events" cols="12" sm=6 :key="`${event_kind}-card`">
             <event-card
               :event="eventId(event_kind)"
               :oracle="$route.params.oracle"
               :key="event_kind"
-              @mouseover="next_selection = '.' + event_kind"
-              @mouseleave="next_selection = null"
+              @mouseover="$root.child_selected = '.' + event_kind"
+              @mouseleave="$root.child_selected = null"
             />
           </v-col>
           <v-col>
@@ -22,20 +30,18 @@
               :children="children"
               :oracle="$route.params.oracle"
               :path="$route.params.path"
-              @selected="next_selection = $event != null ? '/' + $event : null"
+              @selected="$root.child_selected = $event != null ? '/' + $event : null"
             />
           </v-col>
-        </v-row>
-      </v-col>
     </v-row>
-  </v-container>
+</v-container>
 </template>
 
 <script type="text/javascript">
 import axios from "axios";
 import ChildPicker from "../components/ChildPicker";
 import EventCard from "../components/EventCard";
-import Breadcrumbs from "../components/Breadcrumbs";
+import RouterBreadcrumbs from "../components/RouterBreadcrumbs";
 
 export default {
   name: "OraclePath",
@@ -57,12 +63,20 @@ export default {
     updateData: async function (oracle, path) {
       this.children = null;
       this.events = null;
-      this.next_selection = null;
       this.in_progress = true;
-      let res = await axios("https://" + oracle + path);
-      this.in_progress = false;
-      this.children = res.data.children;
-      this.events = res.data.events;
+      let url = "https://" + oracle + path;
+      try {
+        let res = await axios(url);
+        this.in_progress = false;
+        this.children = res.data.children;
+        this.events = res.data.events;
+      }
+      catch (e) {
+        this.$root.set_error(`could not fetch from ${url} (${e})`);
+      }
+      finally {
+        this.in_progress = false;
+      };
     },
   },
   beforeRouteUpdate(to, from, next) {
@@ -90,6 +104,6 @@ export default {
       return breadcrumbs;
     },
   },
-  components: { ChildPicker, EventCard, Breadcrumbs },
+  components: { ChildPicker, EventCard, RouterBreadcrumbs },
 };
 </script>

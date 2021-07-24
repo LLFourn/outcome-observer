@@ -1,15 +1,16 @@
 <template>
   <div v-if="children != null">
-    <div v-if="isList">
+    <div v-if="children.kind == 'list'">
       <v-row>
-        <v-col v-for="item in children.list" :key="item.name" cols=12 md=6>
+        <v-col v-for="item in children.list" :key="item.name" cols=12 md=4 sm=6>
           <v-card
             hover
+            height="100%"
             :to="hrefFor(item.name)"
             @mouseover="chosen_child = item.name"
             @mouseleave="chosen_child = null"
           >
-            <v-card-title> <v-icon>{{ iconFor(item.name)  }}</v-icon>{{ item.name }} </v-card-title>
+            <v-card-title> {{ $describe.long_path_name(pathFor(item.name)) }} <v-spacer /> <v-icon>{{ iconFor(item.name) || 'mdi-folder'  }}</v-icon> </v-card-title>
             <v-card-text>
               {{ $describe.path_short(pathFor(item.name)) }}
             </v-card-text>
@@ -17,13 +18,12 @@
         </v-col>
       </v-row>
     </div>
-    <div v-if="children.kind == 'range' && children['range-kind'] == 'time'">
-      <v-card>
-        <v-card-title>Choose a date and time</v-card-title>
-        <v-card-text>
-          <date-time-picker :value="chosen_date" @input="chosen_date = $event"
-        /></v-card-text>
-        <v-card-actions>
+      <v-row v-if="children.kind == 'range' && children['range-kind'] == 'time'" justify="center">
+        <v-col cols=12 sm=6>
+          <v-card>
+            <v-card-title>Choose a date and time</v-card-title>
+            <v-card-text>
+              <date-time-picker :value="chosen_date" @input="chosen_date = $event" /></v-card-text> <v-card-actions>
           <v-btn
             outlined
             text
@@ -35,7 +35,8 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </div>
+        </v-col>
+      </v-row>
   </div>
 </template>
 
@@ -61,7 +62,7 @@ export default {
     },
     iconFor(item) {
       let path = this.pathFor(item);
-      if (path == "/soccer") {
+      if (path == "/EPL") {
         return "mdi-soccer";
       }
       else if (path == "/time") {
@@ -71,11 +72,6 @@ export default {
         return "mdi-dice-multiple-outline";
       }
     }
-  },
-  computed: {
-    isList() {
-      return this.children.kind == "list";
-    },
   },
   components: { DateTimePicker },
   watch: {

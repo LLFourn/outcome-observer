@@ -1,22 +1,31 @@
 <template>
 <v-container>
   <v-row>
-    <v-col>
-      <breadcrumbs :items="breadcrumbs">
+    <v-col class="text-center">
+      <router-breadcrumbs>
         <v-btn icon @click="copyToClipboard(eventUrl())">
           <v-icon medium>mdi-content-copy</v-icon>
         </v-btn>
-      </breadcrumbs>
-      <p>
-        {{ $describe.event_short(event_id) }}
-      </p>
+      </router-breadcrumbs>
+    </v-col>
+  </v-row>
+
+  <v-row>
+    <v-col class="text-center">
+    <p v-html="description"></p>
+    </v-col>
+  </v-row>
+
+  <v-row v-show="in_progress" justify="center">
+    <v-col cols=1>
+      <v-progress-circular indeterminate/>
     </v-col>
   </v-row>
 
   <v-row v-if="announcement != null">
-    <v-col>
+    <v-col cols=12 md=6>
       <v-card>
-        <v-card-title> possible outcomes </v-card-title>
+        <v-card-title> Possible outcomes </v-card-title>
         <v-card-text>
           <ul>
             <li
@@ -30,7 +39,7 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col>
+    <v-col cols=12 md=6>
       <v-card>
         <v-card-title> Outcome </v-card-title>
         <v-card-text class="display-2" v-if="attestation">
@@ -42,7 +51,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <v-row>
+  <v-row v-if="announcement != null">
     <v-expansion-panels popout multiple>
       <v-expansion-panel
         v-for="[title,body] in [['Announcement',announcement ], [ 'Attestation', attestation ]]"
@@ -62,13 +71,22 @@
 
 <script>
 import axios from "axios";
-import Breadcrumbs from "../components/Breadcrumbs";
+import RouterBreadcrumbs from "../components/RouterBreadcrumbs";
 import formatDistance from "date-fns/formatDistance";
 
 export default {
   name: "Event",
   created: async function () {
-    await this.fetchEvent();
+    try {
+      this.in_progress = true;
+      await this.fetchEvent();
+    }
+    catch(e) {
+        this.$root.set_error(`could not fetch from ${this.eventUrl()} (${e})`);
+    }
+    finally {
+      this.in_progress = false;
+    }
     this.timer_interval = setInterval(this.updateTime, 1000);
   },
   data: () => ({
@@ -79,6 +97,7 @@ export default {
     attestation: null,
     announcement: null,
     last_fetched: null,
+    in_progress: false
   }),
   beforeDestroy() {
     this.stopTimer();
@@ -141,6 +160,18 @@ export default {
     event_id() {
       return this.$route.params.path + "." + this.$route.params.event_kind;
     },
+    description(){
+      let event_id = this.event_id;
+      let html_string = this.$describe.event_html(event_id);
+      if (html_string != null) {
+        let oracle = this.$route.params.oracle;
+        let parser = new DOMParser();
+        let html = parser.parseFromString(html_string, 'text/html');
+        html.querySelectorAll('blockquote').forEach(x => x.setAttribute("class", "blockquote"));
+        html.querySelectorAll('a.oracle-event-id').forEach(x => x.setAttribute("href", "/" + oracle + x.getAttribute('href')));
+        return html.documentElement.innerHTML;
+      }
+    },
     countdown() {
       if (this.expected_outcome_time == null) {
         return null;
@@ -158,6 +189,6 @@ export default {
       );
     },
   },
-  components: { Breadcrumbs },
+  components: { RouterBreadcrumbs },
 };
 </script>

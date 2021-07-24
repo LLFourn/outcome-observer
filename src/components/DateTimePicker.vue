@@ -8,7 +8,7 @@
   <!-- </v-row> -->
   <!-- </div> -->
   <v-row>
-    <v-col>
+    <v-col cols=12 sm=6>
       <v-menu
         v-model="date_menu2"
         :close-on-content-click="false"
@@ -34,6 +34,8 @@
           "
         ></v-date-picker>
       </v-menu>
+    </v-col>
+    <v-col cols=12 sm=6>
       <v-menu
         ref="menu"
         v-model="time_menu2"
