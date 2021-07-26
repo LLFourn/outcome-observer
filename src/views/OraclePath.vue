@@ -1,40 +1,47 @@
 <template>
   <v-container>
-  <v-row>
-    <v-col class="text-center">
-      <router-breadcrumbs></router-breadcrumbs>
-    </v-col>
-  </v-row>
+    <v-row>
+      <v-col class="text-center">
+        <router-breadcrumbs></router-breadcrumbs>
+      </v-col>
+    </v-row>
     <v-row class="text-center">
       <v-col>
         <p v-html="$describe.path_html($route.params.path)"></p>
-        </v-col>
-        </v-row>
+      </v-col>
+    </v-row>
     <v-row v-show="in_progress" justify="center">
-      <v-col cols=1>
-            <v-progress-circular indeterminate/>
+      <v-col cols="1">
+        <v-progress-circular indeterminate />
       </v-col>
     </v-row>
     <v-row>
-          <v-col v-for="event_kind in events" cols="12" sm=6 :key="`${event_kind}-card`">
-            <event-card
-              :event="eventId(event_kind)"
-              :oracle="$route.params.oracle"
-              :key="event_kind"
-              @mouseover="$root.child_selected = '.' + event_kind"
-              @mouseleave="$root.child_selected = null"
-            />
-          </v-col>
-          <v-col>
-            <child-picker
-              :children="children"
-              :oracle="$route.params.oracle"
-              :path="$route.params.path"
-              @selected="$root.child_selected = $event != null ? '/' + $event : null"
-            />
-          </v-col>
+      <v-col
+        v-for="event_kind in events"
+        cols="12"
+        sm="6"
+        :key="`${event_kind}-card`"
+      >
+        <event-card
+          :event="eventId(event_kind)"
+          :oracle="$route.params.oracle"
+          :key="event_kind"
+          @mouseover="$root.child_selected = '.' + event_kind"
+          @mouseleave="$root.child_selected = null"
+        />
+      </v-col>
+      <v-col>
+        <child-picker
+          :children="children"
+          :oracle="$route.params.oracle"
+          :path="$route.params.path"
+          @selected="
+            $root.child_selected = $event != null ? '/' + $event : null
+          "
+        />
+      </v-col>
     </v-row>
-</v-container>
+  </v-container>
 </template>
 
 <script type="text/javascript">
@@ -70,13 +77,11 @@ export default {
         this.in_progress = false;
         this.children = res.data.children;
         this.events = res.data.events;
-      }
-      catch (e) {
+      } catch (e) {
         this.$root.set_error(`could not fetch from ${url} (${e})`);
-      }
-      finally {
+      } finally {
         this.in_progress = false;
-      };
+      }
     },
   },
   beforeRouteUpdate(to, from, next) {

@@ -1,8 +1,14 @@
 <template>
   <span class="crumb">
-    <span v-for="crumb in items">{{ crumb.divider == null ? "/" : crumb.divider}}<router-link v-if="crumb.href" :to="crumb.href">{{crumb.text}}</router-link><b>{{ crumb.href ? "" : crumb.text }}</b></span>
+    <span v-for="crumb in items"
+      >{{ crumb.divider == null ? "/" : crumb.divider
+      }}<router-link v-if="crumb.href" :to="crumb.href">{{
+        crumb.text
+      }}</router-link
+      ><b>{{ crumb.href ? "" : crumb.text }}</b></span
+    >
     <span class="text--disabled next-selection" v-show="next_selection">
-      {{next_selection}}
+      {{ next_selection }}
     </span>
     <slot> </slot>
   </span>
@@ -25,6 +31,6 @@ export default {
 }
 
 .next-selection {
-    position: absolute;
+  position: absolute;
 }
 </style>

@@ -2,7 +2,13 @@
   <div v-if="children != null">
     <div v-if="children.kind == 'list'">
       <v-row>
-        <v-col v-for="item in children.list" :key="item.name" cols=12 md=4 sm=6>
+        <v-col
+          v-for="item in children.list"
+          :key="item.name"
+          cols="12"
+          md="4"
+          sm="6"
+        >
           <v-card
             hover
             height="100%"
@@ -10,7 +16,10 @@
             @mouseover="chosen_child = item.name"
             @mouseleave="chosen_child = null"
           >
-            <v-card-title> {{ $describe.long_path_name(pathFor(item.name)) }} <v-spacer /> <v-icon>{{ iconFor(item.name) || 'mdi-folder'  }}</v-icon> </v-card-title>
+            <v-card-title>
+              {{ $describe.long_path_name(pathFor(item.name)) }} <v-spacer />
+              <v-icon>{{ iconFor(item.name) || "mdi-folder" }}</v-icon>
+            </v-card-title>
             <v-card-text>
               {{ $describe.path_short(pathFor(item.name)) }}
             </v-card-text>
@@ -18,25 +27,32 @@
         </v-col>
       </v-row>
     </div>
-      <v-row v-if="children.kind == 'range' && children['range-kind'] == 'time'" justify="center">
-        <v-col cols=12 sm=6>
-          <v-card>
-            <v-card-title>Choose a date and time</v-card-title>
-            <v-card-text>
-              <date-time-picker :value="chosen_date" @input="chosen_date = $event" /></v-card-text> <v-card-actions>
-          <v-btn
-            outlined
-            text
-            :to="hrefFor(chosen_date)"
-            @mouseover="chosen_child = chosen_date"
-            @mouseleave="chosen_child = null"
-          >
-            GO
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-        </v-col>
-      </v-row>
+    <v-row
+      v-if="children.kind == 'range' && children['range-kind'] == 'time'"
+      justify="center"
+    >
+      <v-col cols="12" sm="6">
+        <v-card>
+          <v-card-title>Choose a date and time</v-card-title>
+          <v-card-text>
+            <date-time-picker
+              :value="chosen_date"
+              @input="chosen_date = $event"
+          /></v-card-text>
+          <v-card-actions>
+            <v-btn
+              outlined
+              text
+              :to="hrefFor(chosen_date)"
+              @mouseover="chosen_child = chosen_date"
+              @mouseleave="chosen_child = null"
+            >
+              GO
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -64,14 +80,12 @@ export default {
       let path = this.pathFor(item);
       if (path == "/EPL") {
         return "mdi-soccer";
-      }
-      else if (path == "/time") {
+      } else if (path == "/time") {
         return "mdi-timer-sand";
-      }
-      else if (path == "/random") {
+      } else if (path == "/random") {
         return "mdi-dice-multiple-outline";
       }
-    }
+    },
   },
   components: { DateTimePicker },
   watch: {

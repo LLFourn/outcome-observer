@@ -4,9 +4,7 @@
       <v-btn icon to="/">
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-toolbar-title>
-        Outcome Observer
-      </v-toolbar-title>
+      <v-toolbar-title> Outcome Observer </v-toolbar-title>
       <v-spacer />
       <v-toolbar-title>
         {{ $route.params.oracle }}
@@ -15,18 +13,21 @@
     <v-main>
       <router-view />
     </v-main>
-    <v-alert type="error" v-show="$root.error != null" transition="fade-transition">
+    <v-alert
+      type="error"
+      v-show="$root.error != null"
+      transition="fade-transition"
+    >
       {{ $root.error }}
     </v-alert>
   </v-app>
-  </template>
+</template>
 
 <script>
-
 import RouterBreadcrumbs from "./components/RouterBreadcrumbs";
 export default {
   name: "App",
   data: () => ({}),
   components: { RouterBreadcrumbs },
-  };
+};
 </script>

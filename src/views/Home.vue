@@ -3,37 +3,31 @@
     <v-row>
       <v-col cols="12">
         <h1>Outcome Observer</h1>
-        <p>An oracle explorer </p>
+        <p>An oracle explorer</p>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols=4>
-      <v-card  hover to="/h00.ooo">
-        <v-card-title>
-          h00.ooo
-        </v-card-title>
-        <v-card-text>
-          An oracle for plebs and degenerates.
-        </v-card-text>
-      </v-card>
+      <v-col cols="4">
+        <v-card hover to="/h00.ooo">
+          <v-card-title> h00.ooo </v-card-title>
+          <v-card-text> An oracle for plebs and degenerates. </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols=4>
+      <v-col cols="4">
         <v-card>
-          <v-card-title>
-            Or choose another
-          </v-card-title>
+          <v-card-title> Or choose another </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="setOracle">
-            <v-text-field
-              filled
-              v-model="oracle"
-              label="The hostname of an oracle"
-            />
-          </v-form>
-            </v-card-text>
-      </v-card>
+              <v-text-field
+                filled
+                v-model="oracle"
+                label="The hostname of an oracle"
+              />
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

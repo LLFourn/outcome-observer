@@ -1,71 +1,77 @@
 <template>
-<v-container>
-  <v-row>
-    <v-col class="text-center">
-      <router-breadcrumbs>
-        <v-btn icon @click="copyToClipboard(eventUrl())">
-          <v-icon medium>mdi-content-copy</v-icon>
-        </v-btn>
-      </router-breadcrumbs>
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-row>
+      <v-col class="text-center">
+        <router-breadcrumbs>
+          <v-btn icon @click="copyToClipboard(eventUrl())">
+            <v-icon medium>mdi-content-copy</v-icon>
+          </v-btn>
+        </router-breadcrumbs>
+      </v-col>
+    </v-row>
 
-  <v-row>
-    <v-col class="text-center">
-    <p v-html="description"></p>
-    </v-col>
-  </v-row>
+    <v-row>
+      <v-col class="text-center">
+        <p v-html="description"></p>
+      </v-col>
+    </v-row>
 
-  <v-row v-show="in_progress" justify="center">
-    <v-col cols=1>
-      <v-progress-circular indeterminate/>
-    </v-col>
-  </v-row>
+    <v-row v-show="in_progress" justify="center">
+      <v-col cols="1">
+        <v-progress-circular indeterminate />
+      </v-col>
+    </v-row>
 
-  <v-row v-if="announcement != null">
-    <v-col cols=12 md=6>
-      <v-card>
-        <v-card-title> Possible outcomes </v-card-title>
-        <v-card-text>
-          <ul>
-            <li
-              v-for="outcome in announcement.descriptor.outcomes"
-              :key="outcome"
-              class="display-1"
+    <v-row v-if="announcement != null">
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title> Possible outcomes </v-card-title>
+          <v-card-text>
+            <ul>
+              <li
+                v-for="outcome in announcement.descriptor.outcomes"
+                :key="outcome"
+                class="display-1"
               >
-              {{ outcome }}
-            </li>
-          </ul>
-        </v-card-text>
-      </v-card>
-    </v-col>
-    <v-col cols=12 md=6>
-      <v-card>
-        <v-card-title> Outcome </v-card-title>
-        <v-card-text class="display-2" v-if="attestation">
-          {{ attestation.outcome }}
-        </v-card-text>
-        <v-card-text v-else-if="announcement">
-          {{ countdown }} at {{ announcement.expected_outcome_time }} UTC
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
-  <v-row v-if="announcement != null">
-    <v-expansion-panels popout multiple>
-      <v-expansion-panel
-        v-for="[title,body] in [['Announcement',announcement ], [ 'Attestation', attestation ]]"
-        :key="`${title}-expansion-drawer`"
-        :disabled="body == null"
-      >
-        <v-expansion-panel-header> <v-row justify="center"><v-col cols=6 class="text-center">{{ title }}</v-col></v-row></v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <pre> {{ JSON.stringify(body, null, "\t") }} </pre>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </v-row>
-  </v-card>
+                {{ outcome }}
+              </li>
+            </ul>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title> Outcome </v-card-title>
+          <v-card-text class="display-2" v-if="attestation">
+            {{ attestation.outcome }}
+          </v-card-text>
+          <v-card-text v-else-if="announcement">
+            {{ countdown }} at {{ announcement.expected_outcome_time }} UTC
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-if="announcement != null">
+      <v-expansion-panels popout multiple>
+        <v-expansion-panel
+          v-for="[title, body] in [
+            ['Announcement', announcement],
+            ['Attestation', attestation],
+          ]"
+          :key="`${title}-expansion-drawer`"
+          :disabled="body == null"
+        >
+          <v-expansion-panel-header>
+            <v-row justify="center"
+              ><v-col cols="6" class="text-center">{{ title }}</v-col></v-row
+            ></v-expansion-panel-header
+          >
+          <v-expansion-panel-content>
+            <pre> {{ JSON.stringify(body, null, "\t") }} </pre>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-row>
   </v-container>
 </template>
 
@@ -80,11 +86,9 @@ export default {
     try {
       this.in_progress = true;
       await this.fetchEvent();
-    }
-    catch(e) {
-        this.$root.set_error(`could not fetch from ${this.eventUrl()} (${e})`);
-    }
-    finally {
+    } catch (e) {
+      this.$root.set_error(`could not fetch from ${this.eventUrl()} (${e})`);
+    } finally {
       this.in_progress = false;
     }
     this.timer_interval = setInterval(this.updateTime, 1000);
@@ -97,14 +101,14 @@ export default {
     attestation: null,
     announcement: null,
     last_fetched: null,
-    in_progress: false
+    in_progress: false,
   }),
   beforeDestroy() {
     this.stopTimer();
   },
   methods: {
     stopTimer() {
-     this.timer_interval && clearInterval(this.timer_interval);
+      this.timer_interval && clearInterval(this.timer_interval);
     },
     async updateTime() {
       this.current_time = Date.now();
@@ -112,7 +116,8 @@ export default {
         this.expected_outcome_time &&
         this.current_time >= this.expected_outcome_time &&
         this.attestation == null &&
-        (this.last_fetched == null || this.current_time - this.last_fetched > 60000)
+        (this.last_fetched == null ||
+          this.current_time - this.last_fetched > 60000)
       ) {
         this.last_fetched = Date.now();
         await this.fetchEvent();
@@ -130,7 +135,7 @@ export default {
       }
       this.attestation = event_info.attestation;
       if (this.attestation != null) {
-          this.stopTimer();
+        this.stopTimer();
       }
     },
     eventUrl() {
@@ -160,15 +165,21 @@ export default {
     event_id() {
       return this.$route.params.path + "." + this.$route.params.event_kind;
     },
-    description(){
+    description() {
       let event_id = this.event_id;
       let html_string = this.$describe.event_html(event_id);
       if (html_string != null) {
         let oracle = this.$route.params.oracle;
         let parser = new DOMParser();
-        let html = parser.parseFromString(html_string, 'text/html');
-        html.querySelectorAll('blockquote').forEach(x => x.setAttribute("class", "blockquote"));
-        html.querySelectorAll('a.oracle-event-id').forEach(x => x.setAttribute("href", "/" + oracle + x.getAttribute('href')));
+        let html = parser.parseFromString(html_string, "text/html");
+        html
+          .querySelectorAll("blockquote")
+          .forEach((x) => x.setAttribute("class", "blockquote"));
+        html
+          .querySelectorAll("a.oracle-event-id")
+          .forEach((x) =>
+            x.setAttribute("href", "/" + oracle + x.getAttribute("href"))
+          );
         return html.documentElement.innerHTML;
       }
     },

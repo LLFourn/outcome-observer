@@ -1,7 +1,8 @@
 <template>
   <v-card :to="'/' + oracle + event" v-on="$listeners" hover height="100%">
     <v-card-title>
-      <h3>{{ kind(event) }}</h3> <v-spacer /> <v-icon>{{ 'mdi-file'  }}</v-icon>
+      <h3>{{ kind(event) }}</h3>
+      <v-spacer /> <v-icon>{{ "mdi-file" }}</v-icon>
     </v-card-title>
     <v-card-text>
       <pre></pre>
