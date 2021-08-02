@@ -128,9 +128,10 @@ export default {
       let event_info = res.data;
       this.event_info = event_info;
       this.announcement = JSON.parse(event_info.announcement.oracle_event.data);
-      if (this.announcement.expected_outcome_time != null) {
+      let expected_outcome_time = this.announcement["expected-outcome-time"];
+      if (expected_outcome_time != null) {
         this.expected_outcome_time = Date.parse(
-          this.announcement.expected_outcome_time + "Z"
+          expected_outcome_time + "Z"
         );
       }
       this.attestation = event_info.attestation;
