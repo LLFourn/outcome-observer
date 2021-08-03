@@ -45,8 +45,8 @@
           <v-card-text class="display-2" v-if="attestation">
             {{ attestation.outcome }}
           </v-card-text>
-          <v-card-text v-else-if="announcement">
-            {{ countdown }} at {{ announcement.expected_outcome_time }} UTC
+          <v-card-text v-else-if="expected_outcome_time">
+            {{ countdown }} on {{ new Date(expected_outcome_time) }}
           </v-card-text>
         </v-card>
       </v-col>

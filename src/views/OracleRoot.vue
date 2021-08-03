@@ -66,6 +66,6 @@ export default {
     children: null,
     keys: null,
   }),
-  components: { ChildPicker, RouterBreadcrumbs },
+  components: { ChildPicker, RouterBreadcrumbs},
 };
 </script>
