@@ -31,7 +31,7 @@
             ></v-expansion-panel-header
           >
           <v-expansion-panel-content>
-            <pre>{{ JSON.stringify(keys, null, "\t") }}</pre>
+            <pre class="json-dump">{{ JSON.stringify(keys, null, "\t") }}</pre>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -53,11 +53,9 @@ export default {
     try {
       let res = await axios(url);
       let oracle_info = res.data;
-      this.children = oracle_info.children;
-      this.keys = {
-        announcement_key: oracle_info.announcement_key,
-        attestation_key: oracle_info.attestation_key,
-      };
+      this.children = oracle_info['children'];
+      this.keys = oracle_info['public-keys'];
+;
     } catch (e) {
       this.$root.set_error(`could not make request from ${url} (${e})`);
     } finally {

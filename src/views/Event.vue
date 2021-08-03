@@ -67,7 +67,7 @@
             ></v-expansion-panel-header
           >
           <v-expansion-panel-content>
-            <pre> {{ JSON.stringify(body, null, "\t") }} </pre>
+            <pre class="json-dump"> {{ JSON.stringify(body, null, "\t") }} </pre>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -204,3 +204,7 @@ export default {
   components: { RouterBreadcrumbs },
 };
 </script>
+
+<style scoped>
+  .json-dump { overflow: auto; }
+</style>
