@@ -33,7 +33,14 @@
                 :key="outcome"
                 class="display-1"
               >
-                {{ outcome }}
+                <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs}">
+                  <span v-on="on" v-bind="attrs">
+                    {{ outcome }}
+                  </span>
+                </template>
+                <span> {{  $describe.describe_outcome(event_id, outcome)  }}</span>
+                </v-tooltip>
               </li>
             </ul>
           </v-card-text>
