@@ -39,7 +39,7 @@
                     {{ outcome }}
                   </span>
                 </template>
-                <span> {{  $describe.describe_outcome(event_id, outcome)  }}</span>
+                <span> {{  $describe.outcome_str(event_id, outcome)  }}</span>
                 </v-tooltip>
               </li>
             </ul>
@@ -175,7 +175,7 @@ export default {
     },
     description() {
       let event_id = this.event_id;
-      let html_string = this.$describe.event_html(event_id);
+      let html_string = this.$describe.event_html_str(event_id);
       if (html_string != null) {
         let oracle = this.$route.params.oracle;
         let parser = new DOMParser();

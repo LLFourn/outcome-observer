@@ -4,8 +4,8 @@
       <h3>{{ kind(event) }}</h3>
       <v-spacer /> <v-icon>{{ "mdi-file" }}</v-icon>
     </v-card-title>
-    <v-card-text>
-      {{ $describe.event_short(event) }}
+    <v-card-text class="event-short-description">
+      {{ $describe.event_id_short_str(event) }}
     </v-card-text>
   </v-card>
 </template>
@@ -21,3 +21,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .event-short-description:first-letter {
+      text-transform:capitalize;
+  }
+</style>

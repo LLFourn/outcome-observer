@@ -17,11 +17,11 @@
             @mouseleave="chosen_child = null"
           >
             <v-card-title>
-              {{ $describe.long_path_name(pathFor(item.name)) }} <v-spacer />
+              {{ $describe.long_path_name_str(pathFor(item.name)) }} <v-spacer />
               <v-icon>{{ iconFor(item.name) || "mdi-folder" }}</v-icon>
             </v-card-title>
             <v-card-text>
-              {{ $describe.path_short(pathFor(item.name)) }}
+              {{ $describe.path_short_str(pathFor(item.name)) }}
             </v-card-text>
           </v-card>
         </v-col>
