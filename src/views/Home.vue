@@ -10,7 +10,7 @@
       <v-col cols="4">
         <v-card hover to="/h00.ooo">
           <v-card-title> h00.ooo </v-card-title>
-          <v-card-text> An oracle for plebs and degenerates. </v-card-text>
+          <v-card-text> <a href="https://twitter.com/LLFOURN">LLFourn</a>'s oracle he's using for this experiment </v-card-text>
         </v-card>
       </v-col>
     </v-row>
