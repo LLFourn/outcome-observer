@@ -12,7 +12,7 @@
 
     <v-row>
       <v-col class="text-center">
-        <p v-html="description"></p>
+        <p class="event-description" v-html="description"></p>
       </v-col>
     </v-row>
 
@@ -214,4 +214,7 @@ export default {
 
 <style scoped>
   .json-dump { overflow: auto; }
+  .event-description:first-letter {
+      text-transform:capitalize;
+  }
 </style>
