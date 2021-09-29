@@ -9,8 +9,8 @@
     <v-row justify="center">
       <v-col cols="4">
         <v-card hover to="/h00.ooo">
-          <v-card-title> h00.ooo </v-card-title>
-          <v-card-text> <a href="https://twitter.com/LLFOURN">LLFourn</a>'s oracle he's using for this experiment </v-card-text>
+          <v-card-title primary-title class="justify-center"> h00.ooo </v-card-title>
+          <v-card-text> LLFourn's oracle he's using for this experiment </v-card-text>
         </v-card>
       </v-col>
     </v-row>
