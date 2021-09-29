@@ -6,8 +6,8 @@
           v-for="item in children.list"
           :key="item.name"
           cols="12"
-          md="4"
-          sm="6"
+          lg="4"
+          md="6"
         >
           <v-card
             hover
@@ -20,7 +20,7 @@
               {{ $describe.long_path_name_str(pathFor(item.name)) }} <v-spacer />
               <v-icon>{{ iconFor(item.name) || "mdi-folder" }}</v-icon>
             </v-card-title>
-            <v-card-text>
+            <v-card-text class="path-short-description">
               {{ $describe.path_short_str(pathFor(item.name)) }}
             </v-card-text>
           </v-card>
@@ -78,7 +78,11 @@ export default {
     },
     iconFor(item) {
       let path = this.pathFor(item);
-      if (path == "/EPL") {
+      if (path == "/s") {
+        return "mdi-soccer";
+      } else if (path == "x") {
+        return "mdi-chart-line"
+      } else if (path == "/s/EPL") {
         return "mdi-soccer";
       } else if (path == "/time") {
         return "mdi-timer-sand";
@@ -95,3 +99,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .path-short-description:first-letter {
+      text-transform:capitalize;
+  }
+</style>
