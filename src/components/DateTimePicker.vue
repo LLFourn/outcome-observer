@@ -28,6 +28,8 @@
         </template>
         <v-date-picker
           v-model="date"
+          :min="min_date"
+          :max="max_date"
           @input="
             date_menu2 = false;
             update();
@@ -60,6 +62,8 @@
           v-model="time"
           @input="update"
           format="24hr"
+          :allowed-minutes="allowMinutes"
+          :allowed-hours="allowHours"
           full-width
           @click:minute="$refs.menu.save(time)"
         ></v-time-picker>
@@ -71,9 +75,10 @@
 <script>
 export default {
   name: "DateTimePicker",
-  props: ["value"],
+  props: ["value", "interval", "start", "end"],
   data() {
     let datetime = this.value;
+    let interval = this.interval;
     if (datetime === null) {
       datetime = new Date().toISOString();
     }
@@ -95,6 +100,28 @@ export default {
       let dt = this.date + "T" + this.time + ":00";
       this.$emit("input", dt);
     },
+    allowMinutes(v) {
+      let interval = Math.floor(this.interval / 60);
+      if (interval == 0) {
+        return true
+      }
+      else {
+        return (v % interval) === 0;
+      }
+    },
+    allowHours(v) {
+      let interval = Math.floor(this.interval / (60 * 60));
+      if (interval == 0) {
+        return true
+      }
+      else {
+        return (v % interval) === 0;
+      }
+    }
   },
+  computed: {
+    min_date() { return this.start.substr(0,10) },
+    max_date() { return this.end.substr(0,10) }
+  }
 };
 </script>
