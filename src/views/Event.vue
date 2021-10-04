@@ -27,7 +27,7 @@
         <v-card>
           <v-card-title> Possible outcomes </v-card-title>
           <v-card-text>
-            <ul>
+            <ul v-if="announcement.descriptor.type == 'enum'">
               <li
                 v-for="outcome in announcement.descriptor.outcomes"
                 :key="outcome"
@@ -39,10 +39,13 @@
                     {{ outcome }}
                   </span>
                 </template>
-                <span> {{  $describe.outcome_str(event_id, outcome)  }}</span>
+                <span> {{ $describe.outcome_str(event_id, outcome)  }}</span>
                 </v-tooltip>
               </li>
             </ul>
+            <span v-if="announcement.descriptor.type == 'digit-decomposition'">
+              price from 0 to {{ Math.pow(2, announcement.descriptor.n_digits) - 1 }}
+            </span>
           </v-card-text>
         </v-card>
       </v-col>
