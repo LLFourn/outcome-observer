@@ -83,7 +83,7 @@ export default {
       let path = this.pathFor(item);
       if (path == "/s") {
         return "mdi-soccer";
-      } else if (path == "x") {
+      } else if (path == "/x") {
         return "mdi-chart-line"
       } else if (path == "/s/EPL") {
         return "mdi-soccer";
