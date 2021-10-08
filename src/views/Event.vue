@@ -152,8 +152,7 @@ export default {
     eventUrl() {
       let event_kind = this.$route.params.event_kind;
       let oracle = this.$route.params.oracle;
-      let path = this.$route.params.path;
-      return "https://" + oracle + path + "." + event_kind;
+      return "https://" + oracle + this.event_id;
     },
     copyToClipboard(text) {
       window.navigator.clipboard.writeText(text);
@@ -174,7 +173,9 @@ export default {
       return breadcrumbs;
     },
     event_id() {
-      return this.$route.params.path + "." + this.$route.params.event_kind;
+      let oracle = this.$route.params.oracle;
+      let event_id = this.$route.fullPath.slice(oracle.length + 1);
+      return event_id;
     },
     description() {
       let event_id = this.event_id;
