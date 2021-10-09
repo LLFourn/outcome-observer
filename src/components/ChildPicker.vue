@@ -37,8 +37,9 @@
           <v-card-text>
             <date-time-picker
               :value="chosen_date"
-              :start="children['start']['name']"
-              :end="children['end']['name']"
+              :start="children['start']"
+              :end="children['end']"
+              :next_unattested="children['next-unattested']"
               :interval="children['interval']"
               @input="chosen_date = $event"
           /></v-card-text>

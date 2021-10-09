@@ -75,12 +75,12 @@
 <script>
 export default {
   name: "DateTimePicker",
-  props: ["value", "interval", "start", "end"],
+  props: ["value", "interval", "start", "end", "next_unattested"],
   data() {
     let datetime = this.value;
     let interval = this.interval;
     if (datetime === null) {
-      datetime = new Date().toISOString();
+      datetime = this.next_unattested;
     }
     return {
       date: datetime.substr(0, 10),
