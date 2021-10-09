@@ -124,7 +124,7 @@ export default {
       this.current_time = Date.now();
       if (
         this.expected_outcome_time &&
-        this.current_time >= this.expected_outcome_time &&
+        this.current_time >= this.expected_outcome_time + 1000 &&
         this.attestation == null &&
         (this.last_fetched == null ||
           this.current_time - this.last_fetched > 60000)
