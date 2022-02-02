@@ -42,8 +42,10 @@ import("olivia_describe")
                 })
               );
               if (event_kind != null) {
+                let query = this.$route.query;
+                let params = Object.keys(query).length > 0 ? "?" + Object.entries(query).map(([k,v]) => k + '=' + v).join("&") : "";
                 breadcrumbs.push({
-                  text: this.$route.params.event_kind,
+                  text: this.$route.params.event_kind + params,
                   divider: ".",
                 });
               }

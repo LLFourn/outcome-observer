@@ -150,7 +150,6 @@ export default {
       }
     },
     eventUrl() {
-      let event_kind = this.$route.params.event_kind;
       let oracle = this.$route.params.oracle;
       return "https://" + oracle + this.event_id;
     },
