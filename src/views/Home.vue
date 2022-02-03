@@ -7,15 +7,15 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col cols="12" sm="7">
         <v-card hover to="/h00.ooo">
           <v-card-title primary-title class="justify-center"> h00.ooo </v-card-title>
-          <v-card-text> LLFourn's oracle he's using for this experiment </v-card-text>
+          <v-card-text> LLFourn's oracle </v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col cols="12" sm="7">
         <v-card>
           <v-card-title> Or choose another </v-card-title>
           <v-card-text>

@@ -5,7 +5,7 @@
       <v-spacer /> <v-icon>{{ "mdi-file" }}</v-icon>
     </v-card-title>
     <v-card-text class="event-short-description">
-      {{ $describe.event_id_short_str(event) }}
+      {{ $describe.event_short_str(event) }}
     </v-card-text>
   </v-card>
 </template>

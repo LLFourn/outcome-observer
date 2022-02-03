@@ -178,7 +178,7 @@ export default {
     },
     description() {
       let event_id = this.event_id;
-      let html_string = this.$describe.event_html_str(event_id);
+      let html_string = this.$describe.event_html_str(event_id) + ".";
       if (html_string != null) {
         let oracle = this.$route.params.oracle;
         let parser = new DOMParser();
