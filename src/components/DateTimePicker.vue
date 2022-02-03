@@ -65,7 +65,7 @@
           :allowed-minutes="allowMinutes"
           :allowed-hours="allowHours"
           full-width
-          @click:minute="$refs.menu.save(time)"
+          @click:hour="checkNeedMins"
         ></v-time-picker>
       </v-menu>
     </v-col>
@@ -101,6 +101,9 @@ export default {
       this.$emit("input", dt);
     },
     allowMinutes(v) {
+      if (v > this.max_min) {
+        return false;
+      }
       let interval = Math.floor(this.interval / 60);
       if (interval == 0) {
         return true
@@ -110,6 +113,9 @@ export default {
       }
     },
     allowHours(v) {
+      if (v > this.max_hour) {
+        return false;
+      }
       let interval = Math.floor(this.interval / (60 * 60));
       if (interval == 0) {
         return true
@@ -117,11 +123,33 @@ export default {
       else {
         return (v % interval) === 0;
       }
+    },
+    checkNeedMins(_time) {
+      // don't ask for mins if we can only choose 00
+      if (Math.floor(this.interval / (60 * 60)) != 0) {
+        this.time_menu2 = false
+      }
     }
   },
   computed: {
     min_date() { return this.start.substr(0,10) },
-    max_date() { return this.end.substr(0,10) }
+    max_date() { return this.end.substr(0,10) },
+    max_hour() {
+      if (this.date == this.max_date) {
+        return parseInt(this.end.substr(11,2))
+      }
+      else {
+        return 24;
+      }
+    },
+    max_min() {
+      if(this.time.substr(0,2) == this.max_hour) {
+        return parseInt(this.end.substr(14,2))
+      }
+      else {
+        return 60
+      }
+    }
   }
 };
 </script>
