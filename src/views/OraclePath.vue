@@ -7,7 +7,7 @@
     </v-row>
     <v-row class="text-center">
       <v-col>
-        <p class="path-description" v-html="$describe.path_html_str($route.params.path) + '.'"></p>
+        <p class="path-description" v-html="$describe.path_html_str($route.params.path)"></p>
       </v-col>
     </v-row>
     <v-row v-show="in_progress" justify="center">
