@@ -1,7 +1,6 @@
 <template>
   <div v-if="children != null">
-    <div v-if="children.kind == 'list'">
-      <v-row>
+      <v-row v-if="children.kind == 'list'">
         <v-col
           v-for="item in children.list"
           :key="item.name"
@@ -26,7 +25,18 @@
           </v-card>
         </v-col>
       </v-row>
-    </div>
+    <v-row v-if="children.kind == 'date-map'" justify="center">
+
+        <date-select-calendar
+          :dates="children.dates"
+          @mouseenter:date="(date) => { chosen_child = date }"
+          @mouseleave:date="chosen_child = null"
+          :hrefFor="hrefFor"
+          @mouseenter:event="(event) => chosen_child = event"
+          @mouseleave:event="chosen_child = null"
+          >
+        </date-select-calendar>
+    </v-row>
     <v-row
       v-if="children.kind == 'range' && children['range-kind'] == 'time'"
       justify="center"
@@ -62,6 +72,7 @@
 
 <script>
 import DateTimePicker from "./DateTimePicker";
+import DateSelectCalendar from "./DateSelectCalendar";
 export default {
   name: "ChildPicker",
   props: {
@@ -95,7 +106,7 @@ export default {
       }
     },
   },
-  components: { DateTimePicker },
+  components: { DateTimePicker, DateSelectCalendar },
   watch: {
     chosen_child(n, o) {
       this.$emit("selected", n);

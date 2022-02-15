@@ -43,21 +43,19 @@
 import axios from "axios";
 import ChildPicker from "../components/ChildPicker";
 import RouterBreadcrumbs from "../components/RouterBreadcrumbs";
+import OracleService from "../services/OracleService.js";
 
 export default {
   name: "OracleRoot",
   created: async function () {
     let oracle = this.$route.params.oracle;
-    let url = "https://" + oracle;
     this.in_progress = true;
     try {
-      let res = await axios(url);
-      let oracle_info = res.data;
+      let oracle_info = await OracleService.getOracle(oracle);
       this.children = oracle_info['children'];
       this.keys = oracle_info['public-keys'];
-;
     } catch (e) {
-      this.$root.set_error(`could not make request from ${url} (${e})`);
+      this.$root.set_error(`could not make request to ${oracle} (${e})`);
     } finally {
       this.in_progress = false;
     }
@@ -65,6 +63,7 @@ export default {
   data: () => ({
     children: null,
     keys: null,
+    in_progress: false,
   }),
   components: { ChildPicker, RouterBreadcrumbs},
 };

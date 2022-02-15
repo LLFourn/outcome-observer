@@ -49,6 +49,8 @@ import axios from "axios";
 import ChildPicker from "../components/ChildPicker";
 import EventCard from "../components/EventCard";
 import RouterBreadcrumbs from "../components/RouterBreadcrumbs";
+import OracleService from "../services/OracleService.js";
+
 
 export default {
   name: "OraclePath",
@@ -71,14 +73,13 @@ export default {
       this.children = null;
       this.events = null;
       this.in_progress = true;
-      let url = "https://" + oracle + path;
       try {
-        let res = await axios(url);
+        let data = await OracleService.getOracle(oracle, path);
         this.in_progress = false;
-        this.children = res.data.children;
-        this.events = res.data.events;
+        this.children = data.children;
+        this.events = data.events;
       } catch (e) {
-        this.$root.set_error(`could not fetch from ${url} (${e})`);
+        this.$root.set_error(`could not fetch from ${oracle} (${e})`);
       } finally {
         this.in_progress = false;
       }

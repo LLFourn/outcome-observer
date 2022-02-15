@@ -1,16 +1,25 @@
 import axios from "axios";
 
-const client = axios.create({
-  baseURL: "https:h00.ooo",
-  withCredentials: false,
-  headers: {
-    Accept: "application.json",
-    "Content-Type": "application/json",
-  },
-});
+// const client = axios.create({
+//   withCredentials: false,
+//   headers: {
+//     Accept: "application.json",
+//     "Content-Type": "application/json",
+//   },
+// });
 
 export default {
-  async getRoot() {
-    return (await client.get("https://h00.ooo")).data;
-  },
-};
+  async getOracle(oracle,path) {
+    let url = "https://" + oracle;
+    // if (oracle == "dev") {
+    //   url = "/_dev"
+    // }
+
+    if (path != null) {
+      url += path
+    }
+
+    let res = await axios(url);
+    return res.data;
+  }
+}
