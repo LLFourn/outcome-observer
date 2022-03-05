@@ -11,3 +11,9 @@ npm install
 npm run serve
 ```
 
+# Prod
+
+``` sh
+npm build
+npx serve -s dist
+```
